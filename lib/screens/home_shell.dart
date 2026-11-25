@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'coming_soon_screen.dart';
 import 'home_screen.dart';
+import 'tea_table_screen.dart';
 
 /// Bottom navigation: Home, Tea Table, Cozy Nook, Learn.
 class HomeShell extends StatefulWidget {
@@ -20,13 +21,7 @@ class HomeShellState extends State<HomeShell> {
   Widget build(BuildContext context) {
     const pages = [
       HomeScreen(),
-      ComingSoonScreen(
-        title: 'The Tea Table',
-        emoji: '🍵',
-        text:
-            'Anonymous questions and confessions, with a private answer just for you '
-            'before anything goes public. Coming in week 2.',
-      ),
+      TeaTableScreen(),
       ComingSoonScreen(
         title: 'Cozy Nook',
         emoji: '🛋️',

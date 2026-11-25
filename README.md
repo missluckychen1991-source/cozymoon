@@ -10,9 +10,9 @@ Built with **Flutter** (Android first, iPhone later) and **Firebase**.
 
 | Week | What | Status |
 | --- | --- | --- |
-| 1 | Onboarding, Home, AI friend chat | ✅ in this repo |
-| 2 | The Tea Table (anonymous Q&A with a private first answer) | next |
-| 3 | Cozy Nook (games, stories, calm videos, soft sounds) | planned |
+| 1 | Onboarding, Home, AI friend chat | ✅ done |
+| 2 | The Tea Table (anonymous Q&A with a private first answer) | ✅ done |
+| 3 | Cozy Nook (games, stories, calm videos, soft sounds) | next |
 | 4 | Learning Hub (3 gentle steps a day), closed test on Google Play | planned |
 
 ## What works now
@@ -26,6 +26,17 @@ Built with **Flutter** (Android first, iPhone later) and **Firebase**.
   leave. A safety check shows a calm help banner with helplines for crisis words,
   even offline. If the AI is not reachable, the friend answers warmly instead of
   showing an error. There is a daily cap of 20 AI replies per user.
+- **The Tea Table:** anonymous board with topic filters and 8 warm starter
+  posts. Every post and reply gets a new random alias (no profiles, no DMs).
+  When she writes, she first gets a private *Just for you* answer from the
+  friend plus 1 to 2 helpful replies from similar posts, then chooses
+  *Keep it private* or *Share anonymously*. Posts and replies are checked for
+  personal details (emails, phones, handles, links) and unkindness, and crisis
+  posts are kept private with the help banner instead of being published.
+  Send Hug works once per post or reply. Without Firebase the table runs on
+  the phone only; with Firebase everyone shares one table through the
+  `teaFeed`, `teaFirstAnswer`, `teaPublish`, `teaReply` and `teaHug` functions,
+  which also run an AI kindness check and never store who wrote what.
 - **Privacy:** profile, check-ins, cycle dates and saved chat stay on the phone.
 
 ## Run it
@@ -46,7 +57,9 @@ The app runs without Firebase: the friend then uses offline replies.
    allowance covers a small pilot).
 4. Get a Gemini API key from https://aistudio.google.com/apikey and store it:
    `firebase functions:secrets:set GEMINI_API_KEY`
-5. Deploy the function: `cd functions && npm install && npm run deploy`
+5. Turn on Firestore in the Firebase console (production mode).
+6. Deploy the functions and the locked-down Firestore rules:
+   `cd functions && npm install && cd .. && firebase deploy --only functions,firestore:rules`
 
 ## Tests
 

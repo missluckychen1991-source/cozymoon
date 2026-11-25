@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // The app never touches Firestore directly. Everything goes through the
+    // Cloud Functions, which check posts before saving them.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
