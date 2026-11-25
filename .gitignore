@@ -1,0 +1,14 @@
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.vscode/
+android/app/google-services.json
+android/local.properties
+android/.gradle/
+functions/node_modules/
+functions/.env
+.env
