@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'firebase_ready.dart';
 import '../models/profile.dart';
 import '../models/tea.dart';
 import 'kindness.dart';
@@ -47,7 +47,7 @@ class TeaService {
 
   List<TeaPost> _cache = [];
 
-  bool get shared => Firebase.apps.isNotEmpty;
+  bool get shared => firebaseReady;
 
   HttpsCallable _fn(String name) =>
       FirebaseFunctions.instance.httpsCallable(name,
