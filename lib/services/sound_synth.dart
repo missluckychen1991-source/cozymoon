@@ -70,6 +70,50 @@ class SoundSynth {
     return _wav(samples);
   }
 
+  /// A tiny, high "blip" for bubble wrap.
+  static Uint8List bubble({int seed = 5}) {
+    final r = Random(seed);
+    const n = sampleRate ~/ 10;
+    final samples = Float64List(n);
+    for (var i = 0; i < n; i++) {
+      final t = i / sampleRate;
+      final freq = 900 + 700 * exp(-t * 40);
+      samples[i] = exp(-t * 45) * sin(2 * pi * freq * t) * 0.5 +
+          (r.nextDouble() - 0.5) * 0.25 * exp(-t * 120);
+    }
+    return _wav(samples);
+  }
+
+  /// A warm two-note bell for when the tea cup is full.
+  static Uint8List chime({double seconds = 1.6}) {
+    final n = (seconds * sampleRate).round();
+    final samples = Float64List(n);
+    for (var i = 0; i < n; i++) {
+      final t = i / sampleRate;
+      final a = exp(-t * 3) * sin(2 * pi * 659.25 * t);
+      final t2 = max(0.0, t - 0.18);
+      final b = t < 0.18 ? 0.0 : exp(-t2 * 3) * sin(2 * pi * 987.77 * t2);
+      final attack = min(1.0, t * 200);
+      samples[i] =
+          attack * (a * 0.45 + b * 0.35 + 0.1 * a * sin(2 * pi * 2 * t));
+    }
+    return _wav(samples);
+  }
+
+  /// A gentle trickle that loops while tea is pouring.
+  static Uint8List pour({double seconds = 3, int seed = 11}) {
+    final r = Random(seed);
+    var low = 0.0;
+    return _loop(seconds, (i) {
+      final t = i / sampleRate;
+      low += ((r.nextDouble() - 0.5) - low) * 0.08;
+      final burble = sin(2 * pi * (300 + 120 * sin(2 * pi * 7 * t)) * t) *
+          0.08 *
+          (0.5 + 0.5 * sin(2 * pi * 3.3 * t));
+      return low * 1.6 + burble;
+    });
+  }
+
   /// Builds [seconds] of audio and cross-fades the ends so it loops without a click.
   static Uint8List _loop(double seconds, double Function(int i) gen) {
     final n = (seconds * sampleRate).round();

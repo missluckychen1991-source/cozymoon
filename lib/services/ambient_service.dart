@@ -110,9 +110,17 @@ class Sfx {
   final bool enabled;
   final List<AudioPlayer> _pool = [];
   int _next = 0;
+  AudioPlayer? _loopPlayer;
   late final Uint8List _pop = SoundSynth.pop();
+  late final Uint8List _bubble = SoundSynth.bubble();
+  late final Uint8List _chime = SoundSynth.chime();
+  late final Uint8List _pour = SoundSynth.pour();
 
-  Future<void> pop() async {
+  Future<void> pop() => _play(_pop, 0.6);
+  Future<void> bubble() => _play(_bubble, 0.5);
+  Future<void> chime() => _play(_chime, 0.55);
+
+  Future<void> _play(Uint8List wav, double volume) async {
     if (!enabled) return;
     try {
       if (_pool.length < 4) {
@@ -122,8 +130,25 @@ class Sfx {
       }
       final p = _pool[_next++ % _pool.length];
       await p.stop();
-      await p.setVolume(0.6);
-      await p.play(BytesSource(_pop, mimeType: 'audio/wav'));
+      await p.setVolume(volume);
+      await p.play(BytesSource(wav, mimeType: 'audio/wav'));
+    } catch (_) {}
+  }
+
+  /// Starts the soft pouring loop (tea game). Safe to call repeatedly.
+  Future<void> startPour() async {
+    if (!enabled) return;
+    try {
+      final p = _loopPlayer ??= AudioPlayer();
+      await p.setReleaseMode(ReleaseMode.loop);
+      await p.setVolume(0.35);
+      await p.play(BytesSource(_pour, mimeType: 'audio/wav'));
+    } catch (_) {}
+  }
+
+  Future<void> stopPour() async {
+    try {
+      await _loopPlayer?.stop();
     } catch (_) {}
   }
 
@@ -131,5 +156,6 @@ class Sfx {
     for (final p in _pool) {
       p.dispose();
     }
+    _loopPlayer?.dispose();
   }
 }

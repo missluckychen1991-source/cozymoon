@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../content/stories.dart';
 import '../content/videos.dart';
+import '../nook/bubble_wrap.dart';
 import '../nook/lantern.dart';
 import '../nook/rocks_game.dart';
+import '../nook/sand_garden.dart';
 import '../nook/sound_mixer.dart';
 import '../nook/story_reader.dart';
+import '../nook/tea_pour.dart';
 import '../nook/video_player.dart';
 import '../services/story_service.dart';
 
@@ -30,6 +33,10 @@ class _CozyNookScreenState extends State<CozyNookScreen> {
   String _vibe = storyVibes.first;
   bool _writing = false;
 
+  static List<List<Widget>> _pairs(List<Widget> w) => [
+        for (var i = 0; i < w.length; i += 2) w.sublist(i, min(i + 2, w.length))
+      ];
+
   void _push(Widget w) =>
       Navigator.of(context).push(MaterialPageRoute(builder: (_) => w));
 
@@ -38,7 +45,14 @@ class _CozyNookScreenState extends State<CozyNookScreen> {
     if (pick == 0) {
       _push(StoryReader(story: stories[_r.nextInt(stories.length)]));
     } else if (pick == 1) {
-      _push(_r.nextBool() ? const RocksGame() : const BreathingLantern());
+      const games = <Widget>[
+        RocksGame(),
+        BreathingLantern(),
+        BubbleWrapGame(),
+        SandGarden(),
+        TeaPour(),
+      ];
+      _push(games[_r.nextInt(games.length)]);
     } else {
       showDialog<void>(
         context: context,
@@ -88,27 +102,56 @@ class _CozyNookScreenState extends State<CozyNookScreen> {
           Text('Too tired to choose? Let me pick something for you.',
               style: t.bodySmall, textAlign: TextAlign.center),
           section('Brain-free games'),
-          Row(children: [
-            Expanded(
-              child: _Tile(
-                key: const Key('game-rocks'),
-                emoji: '🪨',
-                title: 'Smash Annoyance Rocks',
-                subtitle: 'Tap, pop, sparkle',
-                onTap: () => _push(const RocksGame()),
+          for (final pair in _pairs([
+            _Tile(
+              key: const Key('game-rocks'),
+              emoji: '🪨',
+              title: 'Smash Annoyance Rocks',
+              subtitle: 'Tap, pop, sparkle',
+              onTap: () => _push(const RocksGame()),
+            ),
+            _Tile(
+              key: const Key('game-lantern'),
+              emoji: '🏮',
+              title: 'Breathing Tea Lantern',
+              subtitle: 'Hold and breathe',
+              onTap: () => _push(const BreathingLantern()),
+            ),
+            _Tile(
+              key: const Key('game-bubbles'),
+              emoji: '🫧',
+              title: 'Bubble Wrap Pop',
+              subtitle: 'Pop, pop, refill',
+              onTap: () => _push(const BubbleWrapGame()),
+            ),
+            _Tile(
+              key: const Key('game-sand'),
+              emoji: '🪷',
+              title: 'Sand Garden',
+              subtitle: 'Rake slow patterns',
+              onTap: () => _push(const SandGarden()),
+            ),
+            _Tile(
+              key: const Key('game-tea'),
+              emoji: '🫖',
+              title: 'Tea Pour',
+              subtitle: 'Hold to pour a cup',
+              onTap: () => _push(const TeaPour()),
+            ),
+          ]))
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: IntrinsicHeight(
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(child: pair.first),
+                      const SizedBox(width: 12),
+                      Expanded(
+                          child: pair.length > 1 ? pair[1] : const SizedBox()),
+                    ]),
               ),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _Tile(
-                key: const Key('game-lantern'),
-                emoji: '🏮',
-                title: 'Breathing Tea Lantern',
-                subtitle: 'Hold and breathe',
-                onTap: () => _push(const BreathingLantern()),
-              ),
-            ),
-          ]),
           section('5-minute stories'),
           for (final s in stories)
             Padding(
