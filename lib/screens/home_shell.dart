@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../app_state.dart';
+import '../nook/sound_mixer.dart';
+
 import 'coming_soon_screen.dart';
+import 'cozy_nook_screen.dart';
 import 'home_screen.dart';
 import 'tea_table_screen.dart';
 
@@ -22,12 +26,7 @@ class HomeShellState extends State<HomeShell> {
     const pages = [
       HomeScreen(),
       TeaTableScreen(),
-      ComingSoonScreen(
-        title: 'Cozy Nook',
-        emoji: '🛋️',
-        text:
-            'Brain-free games, tiny stories, calm videos and soft sounds. Coming in week 3.',
-      ),
+      CozyNookScreen(),
       ComingSoonScreen(
         title: 'Learn',
         emoji: '✨',
@@ -37,28 +36,31 @@ class HomeShellState extends State<HomeShell> {
     ];
     return Scaffold(
       body: IndexedStack(index: index, children: pages),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: index,
-        onDestinationSelected: goTo,
-        destinations: const [
-          NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home),
-              label: 'Home'),
-          NavigationDestination(
-              icon: Icon(Icons.emoji_food_beverage_outlined),
-              selectedIcon: Icon(Icons.emoji_food_beverage),
-              label: 'Tea Table'),
-          NavigationDestination(
-              icon: Icon(Icons.weekend_outlined),
-              selectedIcon: Icon(Icons.weekend),
-              label: 'Cozy Nook'),
-          NavigationDestination(
-              icon: Icon(Icons.auto_awesome_outlined),
-              selectedIcon: Icon(Icons.auto_awesome),
-              label: 'Learn'),
-        ],
-      ),
+      bottomNavigationBar: Column(mainAxisSize: MainAxisSize.min, children: [
+        MiniPlayer(ambient: AppScope.of(context).ambient),
+        NavigationBar(
+          selectedIndex: index,
+          onDestinationSelected: goTo,
+          destinations: const [
+            NavigationDestination(
+                icon: Icon(Icons.home_outlined),
+                selectedIcon: Icon(Icons.home),
+                label: 'Home'),
+            NavigationDestination(
+                icon: Icon(Icons.emoji_food_beverage_outlined),
+                selectedIcon: Icon(Icons.emoji_food_beverage),
+                label: 'Tea Table'),
+            NavigationDestination(
+                icon: Icon(Icons.weekend_outlined),
+                selectedIcon: Icon(Icons.weekend),
+                label: 'Cozy Nook'),
+            NavigationDestination(
+                icon: Icon(Icons.auto_awesome_outlined),
+                selectedIcon: Icon(Icons.auto_awesome),
+                label: 'Learn'),
+          ],
+        ),
+      ]),
     );
   }
 }

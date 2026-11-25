@@ -164,3 +164,32 @@ exports.teaHug = onCall(opts, async (request) => {
   });
   return { ok: true };
 });
+
+// ---------------- Cozy Nook: 2-minute stories ----------------
+const STORY_SETTINGS = ['Rainy Café', 'Night Train', 'Seaside Town', 'Bookshop', 'Mountain Cabin', 'Kyoto Garden'];
+const STORY_VIBES = ['Sweet Romance', 'Cozy Friendship', 'Funny Mishap', 'Sleepy & Slow', 'Solo Adventure'];
+
+exports.cozyStory = onCall(opts, async (request) => {
+  const data = request.data || {};
+  const setting = STORY_SETTINGS.includes(data.setting) ? data.setting : 'Rainy Café';
+  const vibe = STORY_VIBES.includes(data.vibe) ? data.vibe : 'Cozy Friendship';
+  const system = [
+    'You write short, comforting stories for tired women who need a little escape.',
+    'Write about 280 words. Warm, gentle, a little witty. Second person or third person.',
+    'No violence, no toxic drama, no explicit content, no pregnancy or babies.',
+    'Any romance is sweet and slow. A happy or hopeful ending.',
+    'Reply as JSON: {"title": "<short title>", "body": "<story with paragraphs separated by blank lines>"}.',
+  ].join('\n');
+  try {
+    const raw = await generate(GEMINI_API_KEY.value(), {
+      system,
+      contents: [{ role: 'user', parts: [{ text: `Setting: ${setting}. Vibe: ${vibe}.` }] }],
+      maxOutputTokens: 900,
+      json: true,
+    });
+    const story = JSON.parse(raw.replace(/^```(json)?|```$/g, '').trim());
+    return { title: String(story.title || ''), body: String(story.body || '') };
+  } catch (e) {
+    throw new HttpsError('unavailable', e.message);
+  }
+});

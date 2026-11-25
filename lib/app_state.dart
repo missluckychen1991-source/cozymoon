@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 
 import 'models/cycle.dart';
 import 'models/profile.dart';
+import 'services/ambient_service.dart';
 import 'services/profile_store.dart';
 
 class AppState extends ChangeNotifier {
-  AppState({ProfileStore? store}) : _store = store ?? ProfileStore();
+  AppState({ProfileStore? store, AmbientService? ambient})
+      : _store = store ?? ProfileStore(),
+        ambient = ambient ?? AmbientService();
 
   final ProfileStore _store;
+
+  /// The Cozy Nook sound mixer, shared so sounds keep playing across tabs.
+  final AmbientService ambient;
   Profile _profile = const Profile();
   bool _loaded = false;
   bool nightMode = false;

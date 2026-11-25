@@ -12,8 +12,8 @@ Built with **Flutter** (Android first, iPhone later) and **Firebase**.
 | --- | --- | --- |
 | 1 | Onboarding, Home, AI friend chat | ✅ done |
 | 2 | The Tea Table (anonymous Q&A with a private first answer) | ✅ done |
-| 3 | Cozy Nook (games, stories, calm videos, soft sounds) | next |
-| 4 | Learning Hub (3 gentle steps a day), closed test on Google Play | planned |
+| 3 | Cozy Nook (games, stories, calm videos, soft sounds) | ✅ done |
+| 4 | Learning Hub (3 gentle steps a day), closed test on Google Play | next |
 
 ## What works now
 
@@ -37,6 +37,16 @@ Built with **Flutter** (Android first, iPhone later) and **Firebase**.
   the phone only; with Firebase everyone shares one table through the
   `teaFeed`, `teaFirstAnswer`, `teaPublish`, `teaReply` and `teaHug` functions,
   which also run an AI kindness check and never store who wrote what.
+- **Cozy Nook:** a *Mystery Comfort Envelope* that picks a story, game or
+  tiny calming activity for you. Two no-timer, no-losing games: *Smash
+  Annoyance Rocks* (type an annoyance, tap pastel rocks into sparkles with a
+  soft pop and a little buzz) and the *Breathing Tea Lantern* (hold it: 4 s in,
+  6 s out). Six 2 to 4 minute stories plus *Write me a 2-min cozy story*
+  (pick a setting and a vibe; uses the `cozyStory` function, or a library story
+  offline). A no-doomscroll video corner that plays inside the app with
+  YouTube's privacy-enhanced player. A sound mixer (rain, warm piano pad,
+  fireplace) whose sounds are generated in code, with a mini player that stays
+  above the tabs.
 - **Privacy:** profile, check-ins, cycle dates and saved chat stay on the phone.
 
 ## Run it
@@ -60,6 +70,12 @@ The app runs without Firebase: the friend then uses offline replies.
 5. Turn on Firestore in the Firebase console (production mode).
 6. Deploy the functions and the locked-down Firestore rules:
    `cd functions && npm install && cd .. && firebase deploy --only functions,firestore:rules`
+
+## Choosing the calm videos
+
+Edit `lib/content/videos.dart` and paste a YouTube video id into each slot
+(the part after `watch?v=`). Until a slot has an id, tapping it opens a
+YouTube search instead.
 
 ## Tests
 
