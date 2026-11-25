@@ -13,7 +13,7 @@ Built with **Flutter** (Android first, iPhone later) and **Firebase**.
 | 1 | Onboarding, Home, AI friend chat | ✅ done |
 | 2 | The Tea Table (anonymous Q&A with a private first answer) | ✅ done |
 | 3 | Cozy Nook (games, stories, calm videos, soft sounds) | ✅ done |
-| 4 | Learning Hub (3 gentle steps a day), closed test on Google Play | next |
+| 4 | Learning Hub (3 gentle steps a day), closed test on Google Play | ✅ app done, store steps in [docs/play-store.md](docs/play-store.md) |
 
 ## What works now
 
@@ -47,6 +47,12 @@ Built with **Flutter** (Android first, iPhone later) and **Firebase**.
   YouTube's privacy-enhanced player. A sound mixer (rain, warm piano pad,
   fireplace) whose sounds are generated in code, with a mini player that stays
   above the tabs.
+- **Learning Hub:** *Today's 3 Gentle Steps*, never more than 3: a 60-second
+  quiz with a fun explanation, one big idea, and a tiny solo action (a
+  5-minute snack plus a 2-minute pajama stretch). Three days of lessons (bone
+  and muscle banking, luteal cravings, sleep through your cycle). A new day
+  unlocks each calendar day, *Preview tomorrow* lets her peek ahead, and
+  earlier days stay open to revisit.
 - **Privacy:** profile, check-ins, cycle dates and saved chat stay on the phone.
 
 ## Run it

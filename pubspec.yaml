@@ -1,7 +1,7 @@
 name: cozymoon
 description: A cozy, playful period and stress-relief companion.
 publish_to: 'none'
-version: 0.1.0+1
+version: 0.4.0+4
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
