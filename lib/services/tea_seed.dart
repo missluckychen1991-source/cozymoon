@@ -1,0 +1,226 @@
+import '../models/tea.dart';
+
+/// Warm starter posts so nobody walks into an empty room. The same list lives
+/// in functions/seed_posts.json for the shared server version.
+List<TeaPost> seedPosts([DateTime? now]) {
+  final base = now ?? DateTime.now();
+  return [
+    for (final p in _seed)
+      TeaPost(
+        id: p['id'] as String,
+        alias: p['alias'] as String,
+        tag: tagFromName(p['tag']),
+        text: p['text'] as String,
+        createdAt: base.subtract(Duration(hours: p['hoursAgo'] as int)),
+        hugs: p['hugs'] as int,
+        replies: [
+          for (final (i, r)
+              in (p['replies'] as List<Map<String, Object>>).indexed)
+            TeaReply(
+              id: '${p['id']}-r$i',
+              alias: r['alias'] as String,
+              text: r['text'] as String,
+              hugs: r['hugs'] as int,
+              createdAt: base.subtract(Duration(
+                  minutes: ((p['hoursAgo'] as int) * 60 - 30 * (i + 1))
+                      .clamp(1, 1 << 30))),
+            ),
+        ],
+      ),
+  ];
+}
+
+const List<Map<String, Object>> _seed = [
+  {
+    'id': "seed1",
+    'alias': "Warm Ginger #27",
+    'tag': "period",
+    'text':
+        "Day 2 cramps so bad I can't stand up straight, and my boss told me to 'just take an aspirin.' Ugh. How do you all get through work on day 2?",
+    'hoursAgo': 3,
+    'hugs': 29,
+    'replies': <Map<String, Object>>[
+      {
+        'alias': "Quiet Fern #42",
+        'text':
+            "Heating pad under my desk and I block 20 minutes of 'focus time' in my calendar to lie on the floor. Nobody needs to know 😅",
+        'hugs': 14
+      },
+      {
+        'alias': "Minty Owl #18",
+        'text':
+            "Not medical advice, but starting ibuprofen the night before day 1 (with food) helps me way more than waiting. My doctor suggested it.",
+        'hugs': 9
+      },
+      {
+        'alias': "Sunny Plum #63",
+        'text':
+            "If it's so bad you can't stand, please mention it to a doctor. Mine turned out to be endometriosis and getting it checked changed everything 💛",
+        'hugs': 11
+      },
+    ],
+  },
+  {
+    'id': "seed2",
+    'alias': "Sleepy Plum #12",
+    'tag': "aging",
+    'text':
+        "Turning 37 next month and everyone around me has kids. Some days I love my quiet life, tonight I feel weirdly lonely. Anyone else?",
+    'hoursAgo': 12,
+    'hugs': 41,
+    'replies': <Map<String, Object>>[
+      {
+        'alias': "Velvet Moth #33",
+        'text':
+            "43 here. The lonely nights still visit sometimes, but they pass. I started a Sunday dinner with two other childfree friends and it's my favourite thing.",
+        'hugs': 18
+      },
+      {
+        'alias': "Honey Chai #51",
+        'text':
+            "Both feelings can be true at once. Loving your life and missing something on a hard night is just being human.",
+        'hugs': 22
+      },
+    ],
+  },
+  {
+    'id': "seed3",
+    'alias': "Cozy Matcha #19",
+    'tag': "aging",
+    'text':
+        "Suddenly waking up at 3 AM sweaty the week before my period. I'm 39. Am I breaking?!",
+    'hoursAgo': 28,
+    'hugs': 17,
+    'replies': <Map<String, Object>>[
+      {
+        'alias': "Rosy Clover #70",
+        'text':
+            "Happened to me at 38! Lighter sheets, a fan, and cutting late wine helped a lot. My doctor said hormone shifts in the late 30s can do this.",
+        'hugs': 12
+      },
+      {
+        'alias': "Calm Willow #24",
+        'text':
+            "Track it for two months. Seeing it was always days 24 to 28 made it way less scary for me.",
+        'hugs': 8
+      },
+    ],
+  },
+  {
+    'id': "seed4",
+    'alias': "Brave Sparrow #45",
+    'tag': "solo",
+    'text':
+        "Small win: I assembled a whole bookshelf by myself today. No help, no YouTube meltdown. Feeling unstoppable 💪",
+    'hoursAgo': 5,
+    'hugs': 56,
+    'replies': <Map<String, Object>>[
+      {
+        'alias': "Lazy Otter #81",
+        'text': "QUEEN. Next stop: putting up curtains without crying.",
+        'hugs': 15
+      },
+      {
+        'alias': "Soft Biscuit #29",
+        'text': "This is the kind of post I come here for. Proud of you!",
+        'hugs': 10
+      },
+      {
+        'alias': "Gentle Cloud #66",
+        'text': "The satisfaction of the last screw going in 😌",
+        'hugs': 6
+      },
+    ],
+  },
+  {
+    'id': "seed5",
+    'alias': "Misty Lantern #38",
+    'tag': "venting",
+    'text':
+        "My family keeps asking when I'll 'settle down.' I AM settled. I have a cat, a career and a very good couch.",
+    'hoursAgo': 20,
+    'hugs': 63,
+    'replies': <Map<String, Object>>[
+      {
+        'alias': "Little Mochi #57",
+        'text':
+            "'I'm settled, just not in the way you pictured' is my go-to line. Then I change the subject to their garden.",
+        'hugs': 19
+      },
+      {
+        'alias': "Warm Peach #14",
+        'text':
+            "The couch is the most important part of settling down honestly.",
+        'hugs': 24
+      },
+    ],
+  },
+  {
+    'id': "seed6",
+    'alias': "Quiet Owl #90",
+    'tag': "period",
+    'text':
+        "Is it normal to crave ALL the carbs the week before my period? I ate a whole loaf of bread yesterday.",
+    'hoursAgo': 40,
+    'hugs': 33,
+    'replies': <Map<String, Object>>[
+      {
+        'alias': "Cozy Fern #21",
+        'text':
+            "Totally normal! Progesterone rises and your body burns a bit more energy before your period. I keep oats and dark chocolate around so I'm not starving at midnight.",
+        'hugs': 16
+      },
+      {
+        'alias': "Sunny Willow #48",
+        'text': "A loaf of bread is self-care and I won't hear otherwise 🍞",
+        'hugs': 13
+      },
+    ],
+  },
+  {
+    'id': "seed7",
+    'alias': "Velvet Clover #16",
+    'tag': "aging",
+    'text':
+        "Heard you lose muscle faster after 40. I'm 34 and have never lifted anything heavier than a laptop. Is it too late to start?",
+    'hoursAgo': 72,
+    'hugs': 25,
+    'replies': <Map<String, Object>>[
+      {
+        'alias': "Calm Peach #77",
+        'text':
+            "Not too late at all! I started at 41 with resistance bands in my living room. Twice a week, 20 minutes. Stairs feel easier now.",
+        'hugs': 14
+      },
+      {
+        'alias': "Honey Sparrow #31",
+        'text':
+            "Your 30s are a great time to 'bank' muscle and bone. Bodyweight squats while the kettle boils count!",
+        'hugs': 9
+      },
+    ],
+  },
+  {
+    'id': "seed8",
+    'alias': "Gentle Moth #59",
+    'tag': "solo",
+    'text':
+        "Went to a restaurant alone for the first time. Was nervous for 5 minutes, then had the best pasta of my life in peace.",
+    'hoursAgo': 96,
+    'hugs': 48,
+    'replies': <Map<String, Object>>[
+      {
+        'alias': "Rosy Biscuit #36",
+        'text':
+            "Solo dining is elite. Book + pasta + no one stealing your bread.",
+        'hugs': 12
+      },
+      {
+        'alias': "Minty Chai #85",
+        'text':
+            "Proud of you! Next level: solo movie at the cinema. Best seat, all the snacks.",
+        'hugs': 8
+      },
+    ],
+  },
+];
