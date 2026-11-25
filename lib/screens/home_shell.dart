@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../nook/sound_mixer.dart';
 
-import 'coming_soon_screen.dart';
 import 'cozy_nook_screen.dart';
 import 'home_screen.dart';
+import 'learn_screen.dart';
 import 'tea_table_screen.dart';
 
 /// Bottom navigation: Home, Tea Table, Cozy Nook, Learn.
@@ -27,12 +27,7 @@ class HomeShellState extends State<HomeShell> {
       HomeScreen(),
       TeaTableScreen(),
       CozyNookScreen(),
-      ComingSoonScreen(
-        title: 'Learn',
-        emoji: '✨',
-        text:
-            "Today's 3 gentle steps about your body and aging well. Coming in week 4.",
-      ),
+      LearnScreen(),
     ];
     return Scaffold(
       body: IndexedStack(index: index, children: pages),

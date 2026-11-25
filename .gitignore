@@ -12,3 +12,6 @@ android/.gradle/
 functions/node_modules/
 functions/.env
 .env
+android/key.properties
+*.jks
+*.keystore
