@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_core/firebase_core.dart';
 
+import 'firebase_ready.dart';
 import '../content/stories.dart';
 
 const storySettings = [
@@ -28,7 +28,7 @@ class StoryService {
   final Random _random;
 
   Future<Story> write(String setting, String vibe) async {
-    if (Firebase.apps.isNotEmpty) {
+    if (firebaseReady) {
       try {
         final res = await FirebaseFunctions.instance
             .httpsCallable('cozyStory',

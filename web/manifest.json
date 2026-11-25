@@ -1,0 +1,35 @@
+{
+    "name": "CozyMoon",
+    "short_name": "CozyMoon",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#FAF5EE",
+    "theme_color": "#D97757",
+    "description": "A cozy friend for period days, stress and growing older on your own terms.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

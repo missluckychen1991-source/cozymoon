@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_core/firebase_core.dart';
 
+import 'firebase_ready.dart';
 import '../models/cycle.dart';
 import '../models/profile.dart';
 import 'safety.dart';
@@ -38,8 +38,6 @@ class FriendService {
   final Random _random;
   int _usedToday = 0;
   DateTime _day = DateTime.now();
-
-  static bool get firebaseReady => Firebase.apps.isNotEmpty;
 
   Future<FriendReply> reply({
     required String message,

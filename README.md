@@ -55,6 +55,12 @@ Built with **Flutter** (Android first, iPhone later) and **Firebase**.
   earlier days stay open to revisit.
 - **Privacy:** profile, check-ins, cycle dates and saved chat stay on the phone.
 
+## Try it without publishing
+
+See [docs/install-on-phone.md](docs/install-on-phone.md): a web preview link,
+and an Android test app you can install straight from GitHub. Both are rebuilt
+automatically by `.github/workflows/test-builds.yml` whenever `main` changes.
+
 ## Run it
 
 1. Install Flutter (3.27 or newer) and Android Studio.

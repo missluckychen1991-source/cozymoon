@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -8,9 +9,11 @@ import '../content/videos.dart';
 /// YouTube's privacy-enhanced player, with no recommendations rabbit hole.
 Future<void> openCalmVideo(BuildContext context, CalmVideo v) async {
   final id = v.youtubeId;
-  if (id == null || id.isEmpty) {
-    final uri =
-        Uri.https('www.youtube.com', '/results', {'search_query': v.search});
+  if (id == null || id.isEmpty || kIsWeb) {
+    // The in-app player is phone-only; the web preview opens YouTube instead.
+    final uri = (id == null || id.isEmpty)
+        ? Uri.https('www.youtube.com', '/results', {'search_query': v.search})
+        : Uri.https('www.youtube-nocookie.com', '/embed/$id', {'rel': '0'});
     final ok = await launchUrl(uri, mode: LaunchMode.externalApplication)
         .catchError((_) => false);
     if (!ok && context.mounted) {
